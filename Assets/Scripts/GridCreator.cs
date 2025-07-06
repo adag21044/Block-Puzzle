@@ -39,6 +39,7 @@ public class GridCreator : MonoBehaviour
                 Vector2 position = new Vector2(x * totalCellSize, y * totalCellSize) - centerOffset;
                 GameObject cell = Instantiate(cellPrefab, position, Quaternion.identity, transform);
                 cell.name = $"Cell_{x}_{y}";
+                GridManager.Instance.RegisterCell(x, y, position);
             }
         }
     }

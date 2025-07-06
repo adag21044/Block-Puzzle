@@ -1,51 +1,30 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PieceDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class PieceDragHandler : MonoBehaviour, IPointerDownHandler,IPointerUpHandler, IDragHandler
 {
-    private Vector3 _startPosition;
-    private Transform _dragParent;
-    private CanvasGroup _canvasGroup;
-    private bool _isDragging;
-
-    private void Awake()
+    private Vector3 _offset;
+    public void OnPointerDown(PointerEventData eventData)
     {
-        _canvasGroup = GetComponent<CanvasGroup>();
-    }
+        Debug.Log("Down");
 
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        Debug.Log("Drag started on: " + gameObject.name);
-        _startPosition = transform.position;
-        _isDragging = true;
-
-        if(_canvasGroup != null)
-        {
-            _canvasGroup.blocksRaycasts = false; // Disable raycasts to allow dragging
-        }
+        var target = Camera.main.ScreenToWorldPoint(eventData.position);
+        _offset = transform.position - target;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!_isDragging)
-        {
-            return;
-        }
+        Debug.Log("Drag");
 
-        Vector3 screenPoint = Input.mousePosition;
-        screenPoint.z = 10f; // Set a distance from the camera
-        Vector3 worldPoint = Camera.main.ScreenToWorldPoint(screenPoint);
-        transform.position = new Vector3(worldPoint.x, worldPoint.y, 0f);
+        var target = Camera.main.ScreenToWorldPoint(eventData.position);
+        target += _offset;
+        target.z = 0; 
+        transform.position = target;
     }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        _isDragging = false;
 
-        if (_canvasGroup != null)
-        {
-            _canvasGroup.blocksRaycasts = true; // Re-enable raycasts after dragging
-        }
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Debug.Log("PieceDragHandler  : Drag ended for: " + gameObject.name);
     }
 }
