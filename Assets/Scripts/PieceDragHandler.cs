@@ -15,6 +15,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     private Vector3 _offset;          // Mouse offset
     private Vector3 _homePos;         // Spawn position
+    private bool _canBeRotated = true; 
+    public bool CanbeRotated
+    {
+        get => _canBeRotated;
+    }
 
     #region Unity Events
     private void Awake()
@@ -51,6 +56,7 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
             foreach (var c in coords) GridManager.Instance.OccupyCell(c);
             _placedCoords.Clear();
             _placedCoords.AddRange(coords);
+            _canBeRotated = false; // Flag to control rotation
         }
         else
         {

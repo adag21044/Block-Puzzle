@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 294927153502755362}
   - component: {fileID: -6470436582980734434}
   - component: {fileID: 4958742398015917465}
+  - component: {fileID: 5159500568591536054}
   m_Layer: 0
   m_Name: Pieces_23
   m_TagString: Untagged
@@ -101,9 +102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b3d6fbfe8915274aad1bd3388f7929c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask:
+  gridLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
 --- !u!60 &4958742398015917465
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -157,3 +158,15 @@ PolygonCollider2D:
       - {x: 0.035521388, y: -0.79579514}
       - {x: 0.005686648, y: 2.5468652}
   m_UseDelaunayMesh: 0
+--- !u!114 &5159500568591536054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8258076290431491600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc221300761a3ea4faf0b346ccca201f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
