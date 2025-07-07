@@ -1,67 +1,104 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+/// <summary>
+/// Handles drag & drop of a single puzzle piece (parent GameObject).
+/// Every child under this object represents a 1×1 block.
+/// </summary>
+public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    private Vector3 _offset;
-    [SerializeField] private LayerMask layerMask;
-    private Vector3 homePosition;
+    [SerializeField] private LayerMask gridLayer;
+    
+    private readonly List<Transform> _cells = new();          // Child blocks
+    private readonly List<Vector2Int> _placedCoords = new();  // Currently occupied cells
 
-    private void Start()
+    private Vector3 _offset;          // Mouse offset
+    private Vector3 _homePos;         // Spawn position
+
+    #region Unity Events
+    private void Awake()
     {
-        homePosition = transform.position; // Store the initial position as home
+        foreach (Transform child in transform)
+            _cells.Add(child);
     }
+
+    private void Start() => _homePos = transform.position;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("Down");
+        // Serbest bırak (parça zaten ızgaradaysa)
+        ReleaseCurrentCells();
 
-        var target = Camera.main.ScreenToWorldPoint(eventData.position);
-        _offset = transform.position - target;
+        // Drag başlangıcındaki mouse-ofsetini sakla
+        Vector3 world = Camera.main.ScreenToWorldPoint(eventData.position);
+        _offset = transform.position - world;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Drag");
-
-        var target = Camera.main.ScreenToWorldPoint(eventData.position);
-        target += _offset;
-        target.z = 0;
-        transform.position = target;
+        Vector3 world = Camera.main.ScreenToWorldPoint(eventData.position) + _offset;
+        world.z = 0;
+        transform.position = world;
     }
-
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        var hit = Hit();
-
-        if (hit)
+        if (TryGetValidPlacement(out Vector3 snapOffset, out List<Vector2Int> coords))
         {
-            var target = hit.transform.position;
-            target.z = 0; // Ensure z position is zero
-            transform.position = target; // Snap to the hit position
+            // Yerleştir
+            transform.position += snapOffset;
+            foreach (var c in coords) GridManager.Instance.OccupyCell(c);
+            _placedCoords.Clear();
+            _placedCoords.AddRange(coords);
         }
         else
         {
-            BackHome();
+            // Başlangıca dön
+            transform.position = _homePos;
         }
     }
+    #endregion
 
-    private void BackHome()
+    #region Placement Logic
+    /// <summary>
+    /// Returns true if every child block can be placed,
+    /// outputs common snap offset & target grid coords.
+    /// </summary>
+    private bool TryGetValidPlacement(out Vector3 offset, out List<Vector2Int> coords)
     {
-        Debug.Log("Back Home");
-        transform.position = homePosition; // Reset to the initial position
+        coords = new List<Vector2Int>();
+        offset = Vector3.zero;
+
+        // 1) İlk hücre → referans
+        if (!GridManager.Instance.TryGetCellCoord(_cells[0].position, out Vector2Int first))
+            return false;
+
+        // Offset: world pos of first grid cell – current child pos
+        offset = GridManager.Instance.GetCellWorldPos(first) - _cells[0].position;
+
+        // 2) Diğer hücreler
+        foreach (Transform t in _cells)
+        {
+            Vector3 targetWorld = t.position + offset;
+
+            if (!GridManager.Instance.TryGetCellCoord(targetWorld, out Vector2Int coord))
+                return false;
+
+            if (GridManager.Instance.IsCellOccupied(coord))
+                return false;
+
+            coords.Add(coord);
+        }
+
+        return true;
     }
 
-    private RaycastHit2D Hit()
+    private void ReleaseCurrentCells()
     {
-        var origin = transform.position;
-        return Physics2D.Raycast(origin, Vector3.forward, 10f, layerMask);
+        foreach (var c in _placedCoords)
+            GridManager.Instance.FreeCell(c);
+        _placedCoords.Clear();
     }
-
-    private void FixedUpdate()
-    {
-        var hit = Hit();
-        Debug.Log(hit ? $"Hit: {hit.transform.name}" : "No Hit");
-    }
+    #endregion
 }

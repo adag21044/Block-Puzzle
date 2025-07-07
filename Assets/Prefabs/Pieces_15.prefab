@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8877692381043583304}
   - component: {fileID: 7187376032702882578}
   - component: {fileID: 8900700636766412442}
-  - component: {fileID: -6028070102566288644}
+  - component: {fileID: 5361994793553608859}
   m_Layer: 0
   m_Name: Pieces_15
   m_TagString: Untagged
@@ -104,8 +104,8 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
---- !u!61 &-6028070102566288644
-BoxCollider2D:
+--- !u!60 &5361994793553608859
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -148,5 +148,10 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.77, y: 1.7}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.85714287, y: 0.85714287}
+      - {x: -0.85714287, y: -0.85714287}
+      - {x: 0.85714287, y: -0.85714287}
+      - {x: 0.85714287, y: 0.85714287}
+  m_UseDelaunayMesh: 0

@@ -56,5 +56,31 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
+    public bool TryGetCellCoord(Vector3 worldPos, out Vector2Int coord, float maxDist = 0.8f)
+    {
+        coord = default;
+        float best = float.MaxValue;
+
+        foreach (var kvp in gridPositions)
+        {
+            float d = Vector3.Distance(worldPos, kvp.Value);
+            if (d <= maxDist && d < best)
+            {
+                best  = d;
+                coord = kvp.Key;
+            }
+        }
+        return best < float.MaxValue;
+    }
+
+    public Vector3 GetCellWorldPos(Vector2Int coord) => gridPositions[coord];
+
+    public bool IsCellOccupied(Vector2Int coord) => occupiedCells.Contains(coord);
+
+    public void OccupyCell(Vector2Int coord) => occupiedCells.Add(coord);
+
+    public void FreeCell(Vector2Int coord) => occupiedCells.Remove(coord);
+
     
 }
