@@ -104,7 +104,9 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         foreach (var c in _placedCoords)
             GridManager.Instance.FreeCell(c);
+
         _placedCoords.Clear();
+        _canBeRotated = true; // allow rotation again when piece is lifted
     }
     #endregion
 }
