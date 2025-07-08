@@ -16,6 +16,12 @@ public class PieceRotater : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (InputLocker.Instance.IsInputLocked)
+        {
+            Debug.Log("Input is locked, cannot rotate piece.");
+            return;
+        }
+        
         float distance = Vector2.Distance(_pointerDownPos, eventData.position);
 
         if (distance < _dragThreshold && GetComponent<PieceDragHandler>().CanbeRotated)

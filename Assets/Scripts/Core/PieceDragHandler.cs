@@ -32,6 +32,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(InputLocker.Instance.IsInputLocked)
+        {
+            Debug.Log("Input is locked, cannot drag piece.");
+            return;
+        }
         // Serbest bırak (parça zaten ızgaradaysa)
         ReleaseCurrentCells();
 
@@ -42,6 +47,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (InputLocker.Instance.IsInputLocked)
+        {
+            return;
+        }
+
         Vector3 world = Camera.main.ScreenToWorldPoint(eventData.position) + _offset;
         world.z = 0;
         transform.position = world;
@@ -49,6 +59,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (InputLocker.Instance.IsInputLocked)
+        {
+            return;
+        }
+
         if (TryGetValidPlacement(out Vector3 snapOffset, out List<Vector2Int> coords))
         {
             // Yerleştir

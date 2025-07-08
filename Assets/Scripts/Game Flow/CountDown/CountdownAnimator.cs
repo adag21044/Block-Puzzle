@@ -32,6 +32,7 @@ public class CountdownAnimator : MonoBehaviour
         yield return StartCoroutine(AnimateText());
 
         countdownText.gameObject.SetActive(false);
+        InputLocker.Instance.UnlockInput(); // Unlock input after countdown
     }
 
     private IEnumerator AnimateText()
