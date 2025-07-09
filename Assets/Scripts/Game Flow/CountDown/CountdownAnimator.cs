@@ -18,6 +18,7 @@ public class CountdownAnimator : MonoBehaviour
     {
         int count = (int)countdownTime;
 
+        InputLocker.Instance.LockInput(); // Lock input during countdown
         while (count > 0)
         {
             countdownText.gameObject.SetActive(true);
@@ -30,7 +31,7 @@ public class CountdownAnimator : MonoBehaviour
 
         countdownText.text = "GO!";
         yield return StartCoroutine(AnimateText());
-
+        InputLocker.Instance.UnlockInput(); // Unlock input after countdown
         countdownText.gameObject.SetActive(false);
         InputLocker.Instance.UnlockInput(); // Unlock input after countdown
     }

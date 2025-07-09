@@ -24,7 +24,7 @@ public class PieceRotater : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         
         float distance = Vector2.Distance(_pointerDownPos, eventData.position);
 
-        if (distance < _dragThreshold && GetComponent<PieceDragHandler>().CanbeRotated)
+        if (distance < _dragThreshold && GetComponent<PieceDragHandler>().CanBeRotated)
         {
             RotatePiece();
         }

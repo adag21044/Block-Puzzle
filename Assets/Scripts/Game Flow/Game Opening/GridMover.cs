@@ -51,7 +51,8 @@ public class GridMover : MonoBehaviour
             yield return null;                                // Wait a frame
         }
 
-        InputLocker.Instance.UnlockInput();                   // Aç
+
+        InputLocker.Instance.UnlockInput();                   // Kilidi aç
         _isMoving = false;
     }
 }
