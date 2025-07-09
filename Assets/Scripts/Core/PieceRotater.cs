@@ -33,6 +33,22 @@ public class PieceRotater : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     private void RotatePiece()
     {
-        transform.Rotate(0, 0, _rotationAngle);
+        Vector3 center = GetCenterOfChildren();
+        transform.RotateAround(center, Vector3.forward, _rotationAngle);
     }
+    
+    private Vector3 GetCenterOfChildren()
+    {
+        Vector3 sum = Vector3.zero;
+        int count = 0;
+
+        foreach (Transform child in transform)
+        {
+            sum += child.position;
+            count++;
+        }
+
+        return count > 0 ? sum / count : transform.position;
+    }
+
 }

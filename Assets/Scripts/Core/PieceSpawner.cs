@@ -19,6 +19,7 @@ public class PieceSpawner : MonoBehaviour
 
     private void SpawnPiecesFromJson()
     {
+        Debug.Log($"Spawning pieces for level index: {levelIndex}");
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "Assets/Data/Game159Params.json");
         string jsonText = File.ReadAllText(jsonPath);
         JObject data = JObject.Parse(jsonText);
@@ -39,6 +40,18 @@ public class PieceSpawner : MonoBehaviour
             GameObject piece = Instantiate(prefab, position, Quaternion.Euler(0, 0, -angle), pieceParent);
             piece.name = $"Piece_{id}";
             spawnedPieces.Add(piece); // Add the spawned piece to the list
+
+            // Assign color using PieceColorData model (MVC structure)
+            var view = piece.GetComponent<PieceView>();
+            if (view != null)
+            {
+                Color color = PieceColorData.Colors[i % PieceColorData.Colors.Length];
+                view.SetColor(color);
+            }
+            else
+            {
+                Debug.LogWarning($"PieceView component not found on {piece.name}");
+            }
         }
     }
 }
