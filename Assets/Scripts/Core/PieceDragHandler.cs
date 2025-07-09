@@ -68,6 +68,9 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
         {
             // Yerleştir
             transform.position += snapOffset;
+
+            transform.position = transform.position.Round(2);
+
             foreach (var c in coords)
             {
                 GridManager.Instance.OccupyCell(c);

@@ -15,7 +15,7 @@ public class PieceSpawner : MonoBehaviour
 
     private void Start()
     {
-        SpawnPiecesFromJson();
+        //SpawnPiecesFromJson();
     }
 
     private void SpawnPiecesFromJson()

@@ -32,14 +32,25 @@ public class GridCreator : MonoBehaviour
         float totalCellSize = cellSize + spacing;
         Vector2 centerOffset = new Vector2((gridSize - 1) * totalCellSize / 2f, (gridSize - 1) * totalCellSize / 2f);
 
+        GameObject gridParent = new GameObject("GridParent");
+        gridParent.transform.SetParent(transform);
+        gridParent.transform.localPosition = new Vector3(0f, 0f, 0f);
+
         for (int y = 0; y < gridSize; y++)
         {
             for (int x = 0; x < gridSize; x++)
             {
-                Vector2 position = new Vector2(x * totalCellSize, y * totalCellSize) - centerOffset;
-                GameObject cell = Instantiate(cellPrefab, position, Quaternion.identity, transform);
+                // Hücrenin parent’a göre local konumu
+                Vector2 localPos = new Vector2(x * totalCellSize, y * totalCellSize) - centerOffset;
+
+                // Prefab’ı parent ile instantiate et
+                GameObject cell = Instantiate(cellPrefab, gridParent.transform);
+                cell.transform.localPosition = localPos; // local hizalama
                 cell.name = $"Cell_{x}_{y}";
-                GridManager.Instance.RegisterCell(x, y, position);
+
+                // World konumu: parent + local
+                Vector3 worldPos = cell.transform.position;
+                GridManager.Instance.RegisterCell(x, y, worldPos);
             }
         }
     }
