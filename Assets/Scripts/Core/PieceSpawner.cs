@@ -11,6 +11,7 @@ public class PieceSpawner : MonoBehaviour
     [SerializeField] private int levelIndex = 0; // Index to select the level configuration
 
     private List<GameObject> spawnedPieces = new List<GameObject>();
+    [SerializeField] private Transform startPoint; // Starting point for spawning pieces
 
     private void Start()
     {
@@ -35,7 +36,7 @@ public class PieceSpawner : MonoBehaviour
             float angle = (float)piecesAngles[i];
 
             GameObject prefab = piecePrefabs[id - 1]; // Get the prefab based on the ID (assuming IDs start from 1)
-            Vector3 position = new Vector3(startX + i * spacing, 0f, 0f); // Calculate the position for the piece
+            Vector3 position = startPoint.position + new Vector3(i * spacing, 0f, 0f);  // Calculate the position for the piece
 
             GameObject piece = Instantiate(prefab, position, Quaternion.Euler(0, 0, -angle), pieceParent);
             piece.name = $"Piece_{id}";
