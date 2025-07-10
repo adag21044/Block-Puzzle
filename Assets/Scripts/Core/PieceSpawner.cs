@@ -11,32 +11,34 @@ public class PieceSpawner : MonoBehaviour
     [SerializeField] private float spacing = 2f; // Spacing between pieces
     [SerializeField] private int levelIndex = 0; // Index to select the level configuration
 
-    private List<GameObject> spawnedPieces = new List<GameObject>();
+    private List<GameObject> spawnedPieces = new();
     [SerializeField] private Transform startPoint; // Starting point for spawning pieces
 
-    private void Start()
+    private void Awake()
     {
         SpawnPiecesFromJson();
     }
 
     public void SpawnPiecesFromJson()
     {
+        int levelIndex = LevelManager.LevelIndex;
         Debug.Log($"Spawning pieces for level index: {levelIndex}");
-        string jsonPath = Path.Combine(Application.streamingAssetsPath, "Assets/Data/Game159Params.json");
+
+        // Load JSON data
+        string jsonPath = Path.Combine(Application.streamingAssetsPath, "Game159Params.json");
         string jsonText = File.ReadAllText(jsonPath);
         JObject data = JObject.Parse(jsonText);
 
-        JArray piecesArray = (JArray)data["pieceIDs"][levelIndex]; // Get the pieces for the specified level
-        JArray piecesAngles = (JArray)data["pieceAngles"][levelIndex]; // Get the angles for the specified level
+        JArray piecesArray = (JArray)data["pieceIDs"][levelIndex];
+        JArray piecesAngles = (JArray)data["pieceAngles"][levelIndex];
 
-        float startX = -((piecesArray.Count - 1) * spacing) / 2f; // Center the pieces horizontally
+        float startX = -((piecesArray.Count - 1) * spacing) / 2f;
 
-        // Color pool for pieces
-        List<Color> colorPool = new List<Color>(PieceColorData.Colors);
-        System.Random rng = new System.Random();
-        colorPool.Sort((a, b) => rng.Next(-1, 2)); // shuffle
+        // Shuffle color pool
+        List<Color> colorPool = new(PieceColorData.Colors);
+        System.Random rng = new();
+        colorPool.Sort((a, b) => rng.Next(-1, 2));
 
-        // Create a list to hold the assigned colors
         List<Color> assignedColors = new();
         int colorIndex = 0;
         for (int i = 0; i < piecesArray.Count; i++)
@@ -44,7 +46,7 @@ public class PieceSpawner : MonoBehaviour
             if (colorIndex >= colorPool.Count)
             {
                 colorIndex = 0;
-                colorPool.Sort((a, b) => rng.Next(-1, 2)); // shuffle again if we run out of colors
+                colorPool.Sort((a, b) => rng.Next(-1, 2));
             }
             assignedColors.Add(colorPool[colorIndex++]);
         }
@@ -56,9 +58,8 @@ public class PieceSpawner : MonoBehaviour
 
             GameObject prefab = piecePrefabs[id - 1];
 
-            // İlk konumu aşağıda başlasın
             Vector3 targetPos = startPoint.position + new Vector3(i * spacing, 0f, 0f);
-            Vector3 startPos = targetPos - new Vector3(0f, 5f, 0f); // Aşağıdan başlasın
+            Vector3 startPos = targetPos - new Vector3(0f, 5f, 0f);
 
             GameObject piece = Instantiate(prefab, startPos, Quaternion.Euler(0, 0, -angle), pieceParent);
             piece.name = $"Piece_{id}";
@@ -70,7 +71,6 @@ public class PieceSpawner : MonoBehaviour
                 view.SetColor(assignedColors[i]);
             }
 
-            // DOTween animasyonu – sırayla gelmeleri için gecikme ekliyoruz
             piece.transform.DOMoveY(targetPos.y, 1f).SetEase(Ease.OutBack).SetDelay(0.2f * i);
         }
     }

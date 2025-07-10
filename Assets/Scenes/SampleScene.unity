@@ -2055,7 +2055,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1414909256}
-  - component: {fileID: 1414909255}
+  - component: {fileID: 1414909257}
   m_Layer: 0
   m_Name: GridCreator
   m_TagString: Untagged
@@ -2063,23 +2063,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1414909255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414909254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fd4df7624a4315488b0c8dd233f4e37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellPrefab: {fileID: 6003602420556211510, guid: b78c4eb9173ad334397fabe7ed87f60d, type: 3}
-  cellSize: 1.64
-  levelIndex: 0
-  spacing: 0
-  gridSize: 0
 --- !u!4 &1414909256
 Transform:
   m_ObjectHideFlags: 0
@@ -2095,6 +2078,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1414909257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414909254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd4df7624a4315488b0c8dd233f4e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellPrefab: {fileID: 6003602420556211510, guid: b78c4eb9173ad334397fabe7ed87f60d, type: 3}
+  cellSize: 1.64
+  spacing: 0.1
 --- !u!1 &1502889592 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 831702513982318206, guid: 5b80041dd55ede84da249fbc40af7e5e, type: 3}

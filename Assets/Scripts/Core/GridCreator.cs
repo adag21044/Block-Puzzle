@@ -7,10 +7,10 @@ public class GridCreator : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab; // Tek bir kareyi temsil eden prefab
     [SerializeField] private float cellSize = 1.64f;
-    [SerializeField] private int levelIndex = 0; // JSON'daki hangi seviyeyi kullanacağını belirtir
+    
     [SerializeField] private float spacing = 0.1f;
 
-    [SerializeField] private int gridSize;
+    private int gridSize;
 
     void Start()
     {
@@ -38,11 +38,12 @@ public class GridCreator : MonoBehaviour
 
     void LoadGridSizeFromJson()
     {
-        string jsonPath = Path.Combine(Application.streamingAssetsPath, "Assets/Data/Game159Params.json");
+        string jsonPath = Path.Combine(Application.streamingAssetsPath, "Game159Params.json");
         string jsonText = File.ReadAllText(jsonPath);
         JObject data = JObject.Parse(jsonText);
-        gridSize = (int)data["gridSize"][levelIndex]; // Örn: 5x5 için gridSize = 5
+        gridSize = (int)data["gridSize"][LevelManager.LevelIndex]; // Örn: 5x5 için gridSize = 5
         GameManager.Instance.SetTotalCells(gridSize);
+        Debug.Log($"Loaded grid size: {gridSize} for level {LevelManager.LevelIndex}");
     }
 
     void CreateCenteredGrid()
