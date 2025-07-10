@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 public class PieceSpawner : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class PieceSpawner : MonoBehaviour
         SpawnPiecesFromJson();
     }
 
-    private void SpawnPiecesFromJson()
+    public void SpawnPiecesFromJson()
     {
         Debug.Log($"Spawning pieces for level index: {levelIndex}");
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "Assets/Data/Game159Params.json");
@@ -35,24 +36,25 @@ public class PieceSpawner : MonoBehaviour
             int id = (int)piecesArray[i];
             float angle = (float)piecesAngles[i];
 
-            GameObject prefab = piecePrefabs[id - 1]; // Get the prefab based on the ID (assuming IDs start from 1)
-            Vector3 position = startPoint.position + new Vector3(i * spacing, 0f, 0f);  // Calculate the position for the piece
+            GameObject prefab = piecePrefabs[id - 1];
 
-            GameObject piece = Instantiate(prefab, position, Quaternion.Euler(0, 0, -angle), pieceParent);
+            // İlk konumu aşağıda başlasın
+            Vector3 targetPos = startPoint.position + new Vector3(i * spacing, 0f, 0f);
+            Vector3 startPos = targetPos - new Vector3(0f, 5f, 0f); // Aşağıdan başlasın
+
+            GameObject piece = Instantiate(prefab, startPos, Quaternion.Euler(0, 0, -angle), pieceParent);
             piece.name = $"Piece_{id}";
-            spawnedPieces.Add(piece); // Add the spawned piece to the list
+            spawnedPieces.Add(piece);
 
-            // Assign color using PieceColorData model (MVC structure)
             var view = piece.GetComponent<PieceView>();
             if (view != null)
             {
                 Color color = PieceColorData.Colors[i % PieceColorData.Colors.Length];
                 view.SetColor(color);
             }
-            else
-            {
-                Debug.LogWarning($"PieceView component not found on {piece.name}");
-            }
+
+            // DOTween animasyonu – sırayla gelmeleri için gecikme ekliyoruz
+            piece.transform.DOMoveY(targetPos.y, 1f).SetEase(Ease.OutBack).SetDelay(0.2f * i);
         }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using DG.Tweening;
 
 public class GridCreator : MonoBehaviour
 {
@@ -17,7 +18,23 @@ public class GridCreator : MonoBehaviour
 
         LoadGridSizeFromJson();
         CreateCenteredGrid();
+
+        // Grid parent'ı önce aşağıya konumla
+        Vector3 startPos = transform.position - new Vector3(0f, 10f, 0f);
+        transform.position = startPos;
+
+        // 10 saniye sonra sahneye girsin
+        Invoke(nameof(AnimateGridEntry), 1f);
+        
     }
+    
+
+    public void AnimateGridEntry()
+    {
+        transform.DOMoveY(transform.position.y + 10f, 1f).SetEase(Ease.OutBack);
+    }
+
+    /// <summary>
 
     void LoadGridSizeFromJson()
     {

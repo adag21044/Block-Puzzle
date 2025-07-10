@@ -518,6 +518,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  gridCreator: {fileID: 0}
+  pieceSpawner: {fileID: 0}
 --- !u!4 &408023733
 Transform:
   m_ObjectHideFlags: 0
