@@ -5,7 +5,7 @@ public class PieceRotater : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 {
     private Vector2 _pointerDownPos;
     private float _dragThreshold = 10f; 
-    private float _rotationAngle = 90f;
+    private float _rotationAngle = -90f;
 
     
 
