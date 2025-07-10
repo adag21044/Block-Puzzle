@@ -75,5 +75,12 @@ public class GameManager : MonoBehaviour
         {
             LoseGame();
         }
+        Debug.Log("Final Score: " + GetScore());
     }
+
+    public int GetScore()
+    {
+        return 100 * filledCellCount / totalCellCount;
+    }
+
 }
