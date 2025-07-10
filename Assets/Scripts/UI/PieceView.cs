@@ -12,6 +12,10 @@ public class PieceView : MonoBehaviour
                 sr.color = color;
                 Debug.Log($"Set color {color} for block {block.name} in piece {gameObject.name}");
             }
+            else
+            {
+                Debug.LogWarning($"⚠️ SpriteRenderer missing in {block.name}");
+            }
         }
     }
 }

@@ -31,6 +31,24 @@ public class PieceSpawner : MonoBehaviour
 
         float startX = -((piecesArray.Count - 1) * spacing) / 2f; // Center the pieces horizontally
 
+        // Color pool for pieces
+        List<Color> colorPool = new List<Color>(PieceColorData.Colors);
+        System.Random rng = new System.Random();
+        colorPool.Sort((a, b) => rng.Next(-1, 2)); // shuffle
+
+        // Create a list to hold the assigned colors
+        List<Color> assignedColors = new();
+        int colorIndex = 0;
+        for (int i = 0; i < piecesArray.Count; i++)
+        {
+            if (colorIndex >= colorPool.Count)
+            {
+                colorIndex = 0;
+                colorPool.Sort((a, b) => rng.Next(-1, 2)); // shuffle again if we run out of colors
+            }
+            assignedColors.Add(colorPool[colorIndex++]);
+        }
+
         for (int i = 0; i < piecesArray.Count; i++)
         {
             int id = (int)piecesArray[i];
@@ -49,8 +67,7 @@ public class PieceSpawner : MonoBehaviour
             var view = piece.GetComponent<PieceView>();
             if (view != null)
             {
-                Color color = PieceColorData.Colors[i % PieceColorData.Colors.Length];
-                view.SetColor(color);
+                view.SetColor(assignedColors[i]);
             }
 
             // DOTween animasyonu – sırayla gelmeleri için gecikme ekliyoruz
