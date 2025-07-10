@@ -10,6 +10,9 @@ public class CountdownAnimator : MonoBehaviour
     [SerializeField] private AnimationCurve alphaCurve; // curve for alpha animation
     [SerializeField] private static bool isCountdownFinished = false; // flag to check if countdown is finished
     public static bool IsCountdownFinished => isCountdownFinished; // public getter for the countdown finished flag
+    [SerializeField] private Timer timer; // reference to the Timer 
+    [SerializeField] private float gameDuration = 10f; // duration of the game in seconds
+
 
     private void Start()
     {
@@ -40,6 +43,8 @@ public class CountdownAnimator : MonoBehaviour
         // Geri sayım bitti → grid ve parçaları sahneye al
         //gridCreator.AnimateGridEntry();
         //pieceSpawner.SpawnPiecesFromJson();
+
+        timer.StartTimer(gameDuration);
     }
 
     private IEnumerator AnimateText()
