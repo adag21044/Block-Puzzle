@@ -5,9 +5,21 @@ using System.Collections;
 
 public class Timer : MonoBehaviour
 {
+    public static Timer Instance { get; private set; }
     private float currentTime;
     private float startTime = 10f;
     [SerializeField] private TextMeshProUGUI timerText; // UI element to display the timer
+    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     public void StartTimer(float time)
     {
@@ -36,5 +48,12 @@ public class Timer : MonoBehaviour
         UpdateTimerText();
         Debug.Log("Timer finished!");
         GameManager.Instance.LoseGame(); // Notify GameManager that the timer has finished
+    }
+
+    public void StopTimer()
+    {
+        StopAllCoroutines(); // Stop the timer coroutine
+        currentTime = 0; // Reset the timer
+        UpdateTimerText(); // Update the UI text to show 00
     }
 }

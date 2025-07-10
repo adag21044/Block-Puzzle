@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
         gameEnded = true;
         Debug.Log("You won the game!");
         Debug.Log("Score: " + Mathf.RoundToInt(100f * filledCellCount / (float)totalCellCount));
+        Timer.Instance.StopTimer(); // Stop the timer when the game is won
     }
 
     private void EndGame()
