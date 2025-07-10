@@ -35,5 +35,6 @@ public class Timer : MonoBehaviour
         currentTime = 0;
         UpdateTimerText();
         Debug.Log("Timer finished!");
+        GameManager.Instance.LoseGame(); // Notify GameManager that the timer has finished
     }
 }

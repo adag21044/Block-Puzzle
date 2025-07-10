@@ -78,9 +78,20 @@ public class GridManager : MonoBehaviour
 
     public bool IsCellOccupied(Vector2Int coord) => occupiedCells.Contains(coord);
 
-    public void OccupyCell(Vector2Int coord) => occupiedCells.Add(coord);
+    public void OccupyCell(Vector2Int coord)
+    {
+        if (occupiedCells.Add(coord)) // Eğer zaten dolu değilse eklenir
+        {
+            GameManager.Instance.OnCellFilled(); // GameManager’a bildir
+        }
+    }
 
-    public void FreeCell(Vector2Int coord) => occupiedCells.Remove(coord);
-
+    public void FreeCell(Vector2Int coord)
+    {
+        if (occupiedCells.Remove(coord)) // Eğer zaten doluysa kaldırılır
+        {
+            GameManager.Instance.OnCellEmptied(); // GameManager’a bildir
+        }
+    }
     
 }

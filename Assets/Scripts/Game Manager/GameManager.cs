@@ -1,0 +1,78 @@
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager Instance;
+
+    private int totalCellCount;
+    private int filledCellCount;
+    private bool gameEnded = false;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public void SetTotalCells(int gridSize)
+    {
+        totalCellCount = gridSize * gridSize;
+    }
+
+    public void OnCellFilled()
+    {
+        if (gameEnded)
+        {
+            return;
+        }
+
+        filledCellCount++;
+
+        if (filledCellCount >= totalCellCount)
+        {
+            EndGame();
+        }
+    }
+
+    public void OnCellEmptied()
+    {
+        if (gameEnded)
+        {
+            return;
+        }
+
+        filledCellCount--;
+    }
+
+    public void LoseGame()
+    {
+        if (gameEnded)
+        {
+            return;
+        }
+
+        gameEnded = true;
+        Debug.Log("You lost the game!");
+        Debug.Log("Score: " + Mathf.RoundToInt(100f * filledCellCount / (float)totalCellCount));
+    }
+
+    private void WinGame()
+    {
+        gameEnded = true;
+        Debug.Log("You won the game!");
+        Debug.Log("Score: " + Mathf.RoundToInt(100f * filledCellCount / (float)totalCellCount));
+    }
+
+    private void EndGame()
+    {
+        gameEnded = true;
+        Debug.Log("Game ended!");
+        if (filledCellCount >= totalCellCount)
+        {
+            WinGame();
+        }
+        else
+        {
+            LoseGame();
+        }
+    }
+}

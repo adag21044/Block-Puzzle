@@ -42,6 +42,7 @@ public class GridCreator : MonoBehaviour
         string jsonText = File.ReadAllText(jsonPath);
         JObject data = JObject.Parse(jsonText);
         gridSize = (int)data["gridSize"][levelIndex]; // Örn: 5x5 için gridSize = 5
+        GameManager.Instance.SetTotalCells(gridSize);
     }
 
     void CreateCenteredGrid()
