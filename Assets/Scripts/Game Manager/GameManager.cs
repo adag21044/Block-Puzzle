@@ -78,9 +78,14 @@ public class GameManager : MonoBehaviour
         Debug.Log("Final Score: " + GetScore());
     }
 
-    public int GetScore()
+    public float GetScore()
     {
-        return 100 * filledCellCount / totalCellCount;
+        if (100 * filledCellCount / totalCellCount == 100)
+        {
+            return 150; // Bonus score for perfect completion
+        }
+
+        return 100f * (float)filledCellCount / (float)totalCellCount;
     }
 
 }
