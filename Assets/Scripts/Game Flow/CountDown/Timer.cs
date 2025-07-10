@@ -47,6 +47,8 @@ public class Timer : MonoBehaviour
         currentTime = 0;
         UpdateTimerText();
         Debug.Log("Timer finished!");
+        InputLocker.Instance.LockInput(); // Lock input when timer finishes
+        timerText.text = "00"; // Update the UI text to show 00
         GameManager.Instance.LoseGame(); // Notify GameManager that the timer has finished
     }
 
