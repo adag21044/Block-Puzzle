@@ -8,7 +8,7 @@ public class LevelController : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i <= 9; i++)
+        for (int i = 1; i <= 9; i++)
         {
             if (Input.GetKeyDown(i.ToString()))
             {
@@ -19,6 +19,12 @@ public class LevelController : MonoBehaviour
 
     private void LoadLevel(int index)
     {
+        if (index < 0 || index >= 13)
+        {
+            Debug.LogWarning($"❌ Invalid level index: {index}");
+            return;
+        }
+
         Debug.Log($"Loading level {index + 1}");
 
         ClearScene();
@@ -30,6 +36,10 @@ public class LevelController : MonoBehaviour
 
         GameManager.Instance.ResetGameState();
         Timer.Instance.StopTimer();
+
+        // fetch level data duration
+        int duration = LevelDataLoader.GetTime();
+        Timer.Instance.StartTimer(duration);
     }
 
     private void ClearScene()
