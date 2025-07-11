@@ -67,7 +67,7 @@ public class GridManager : MonoBehaviour
             float d = Vector3.Distance(worldPos, kvp.Value);
             if (d <= maxDist && d < best)
             {
-                best  = d;
+                best = d;
                 coord = kvp.Key;
             }
         }
@@ -92,6 +92,12 @@ public class GridManager : MonoBehaviour
         {
             GameManager.Instance.OnCellEmptied(); // GameManager’a bildir
         }
+    }
+    
+    public void ClearAll()
+    {
+        gridPositions.Clear();
+        occupiedCells.Clear();
     }
     
 }

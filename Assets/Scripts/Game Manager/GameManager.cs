@@ -88,4 +88,10 @@ public class GameManager : MonoBehaviour
         return 100f * (float)filledCellCount / (float)totalCellCount;
     }
 
+    public void ResetGameState()
+    {
+        filledCellCount = 0;
+        gameEnded = false;
+    }
+
 }

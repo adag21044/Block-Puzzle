@@ -7,7 +7,7 @@ public class GridCreator : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab; // Tek bir kareyi temsil eden prefab
     [SerializeField] private float cellSize = 1.64f;
-    
+
     [SerializeField] private float spacing = 0.1f;
 
     private int gridSize;
@@ -25,9 +25,9 @@ public class GridCreator : MonoBehaviour
 
         // 10 saniye sonra sahneye girsin
         Invoke(nameof(AnimateGridEntry), 1f);
-        
+
     }
-    
+
 
     public void AnimateGridEntry()
     {
@@ -36,7 +36,7 @@ public class GridCreator : MonoBehaviour
 
     /// <summary>
 
-    void LoadGridSizeFromJson()
+    public void LoadGridSizeFromJson()
     {
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "Game159Params.json");
         string jsonText = File.ReadAllText(jsonPath);
@@ -62,4 +62,16 @@ public class GridCreator : MonoBehaviour
             }
         }
     }
+    
+    public void CreateGridFromLevel()
+    {
+        LoadGridSizeFromJson();
+        CreateCenteredGrid();
+
+        Vector3 startPos = transform.position - new Vector3(0f, 10f, 0f);
+        transform.position = startPos;
+
+        AnimateGridEntry();
+    }
+
 }
