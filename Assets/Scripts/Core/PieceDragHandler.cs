@@ -37,6 +37,9 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
             Debug.Log("Input is locked, cannot drag piece.");
             return;
         }
+
+        _homePos = transform.position; // Update & Save home position
+
         // Serbest bırak (parça zaten ızgaradaysa)
         ReleaseCurrentCells();
 

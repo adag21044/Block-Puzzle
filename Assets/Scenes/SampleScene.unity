@@ -2092,7 +2092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 6003602420556211510, guid: b78c4eb9173ad334397fabe7ed87f60d, type: 3}
   cellSize: 1.64
-  spacing: 0.1
+  spacing: 0
 --- !u!1 &1502889592 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 831702513982318206, guid: 5b80041dd55ede84da249fbc40af7e5e, type: 3}
