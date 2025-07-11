@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class LevelController : MonoBehaviour
 {
     [SerializeField] private GridCreator gridCreator; // Reference to the GridCreator component
     [SerializeField] private PieceSpawner pieceSpawner; // Reference to the PieceSpawner component
     [SerializeField] private Transform gridParent;
+    [SerializeField] private TMP_Text levelNumberText; // UI Text to display the current level number
 
     private void Update()
     {
@@ -30,6 +33,7 @@ public class LevelController : MonoBehaviour
         ClearScene();
 
         LevelManager.LevelIndex = index;
+        UpdateLevelNumberText();
 
         gridCreator.CreateGridFromLevel();
         pieceSpawner.SpawnPiecesFromJson();
@@ -57,6 +61,14 @@ public class LevelController : MonoBehaviour
         }
 
         GridManager.Instance.ClearAll();
+    }
+
+    private void UpdateLevelNumberText()
+    {
+        if (levelNumberText != null)
+        {
+            levelNumberText.text = LevelManager.LevelIndex.ToString();
+        }
     }
 
 }
