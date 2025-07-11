@@ -68,20 +68,36 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
         {
             // Yerleştir
             transform.position += snapOffset;
+
             foreach (var c in coords)
             {
                 GridManager.Instance.OccupyCell(c);
             }
+
             _placedCoords.Clear();
             _placedCoords.AddRange(coords);
             _canBeRotated = false; // Flag to control rotation
         }
         else
         {
+            bool isOverGrid = false;
+
+            foreach (Transform cell in _cells)
+            {
+                if (GridManager.Instance.TryGetCellCoord(cell.position, out _))
+                {
+                    isOverGrid = true;
+                    break;
+                }
+            }
+
+            if (isOverGrid)
+            {
+                transform.position = _homePos; // piece is over grid but not valid placement
+            }
+
             // Serbest bırak
             ReleaseCurrentCells();
-            
-            
         }
     }
     #endregion
