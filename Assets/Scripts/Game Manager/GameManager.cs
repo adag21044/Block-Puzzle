@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
         gameEnded = true;
         Debug.Log("You lost the game!");
         Debug.Log("Score: " + Mathf.RoundToInt(100f * filledCellCount / (float)totalCellCount));
+        InputLocker.Instance.LockInput(); // Lock input when the game is lost
     }
 
     private void WinGame()
@@ -61,6 +62,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("You won the game!");
         Debug.Log("Score: " + Mathf.RoundToInt(100f * filledCellCount / (float)totalCellCount));
         Timer.Instance.StopTimer(); // Stop the timer when the game is won
+        InputLocker.Instance.LockInput(); // Unlock input when the game is won
+        Debug.Log("You won the game and Input is locked!");
     }
 
     private void EndGame()
@@ -92,6 +95,7 @@ public class GameManager : MonoBehaviour
     {
         filledCellCount = 0;
         gameEnded = false;
+        InputLocker.Instance.UnlockInput(); // Unlock input when the game state is reset
     }
 
 }
