@@ -31,8 +31,8 @@ public class Timer : MonoBehaviour
     private void UpdateTimerText()
     {
         // Format the time to show  seconds
-        int seconds = Mathf.FloorToInt(currentTime % 60);
-        timerText.text = string.Format("{0:00}", seconds);
+        int seconds = Mathf.FloorToInt(currentTime);
+        timerText.text = seconds.ToString("00"); 
     }
 
     private IEnumerator RunTimer()
@@ -40,7 +40,14 @@ public class Timer : MonoBehaviour
         while (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
+
+            if (currentTime < 0)
+            {
+                currentTime = 0;
+            }
+
             UpdateTimerText();
+
             yield return null;
         }
 
