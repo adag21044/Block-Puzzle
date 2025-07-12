@@ -9,6 +9,11 @@ public class LevelController : MonoBehaviour
     [SerializeField] private Transform gridParent;
     [SerializeField] private TMP_Text levelNumberText; // UI Text to display the current level number
 
+    private void Start()
+    {
+        UpdateLevelNumberText();
+    }
+
     private void Update()
     {
         for (int i = 1; i <= 9; i++)
@@ -67,8 +72,7 @@ public class LevelController : MonoBehaviour
     {
         if (levelNumberText != null)
         {
-            levelNumberText.text = LevelManager.LevelIndex.ToString();
+            levelNumberText.text = "Level:" + (LevelManager.LevelIndex + 1).ToString();
         }
     }
-
 }
