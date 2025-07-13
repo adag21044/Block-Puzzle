@@ -25,7 +25,7 @@ public class CountdownAnimator : MonoBehaviour
     {
         InputLocker.Instance.LockInput(); // lock input during countdown
         isCountdownFinished = false; // reset countdown finished flag
-        
+
         int count = (int)countdownTime;
 
         while (count > 0)
@@ -79,11 +79,21 @@ public class CountdownAnimator : MonoBehaviour
         countdownText.color = new Color(baseColor.r, baseColor.g, baseColor.b, 0f);
     }
 
-    public void RestartCountDown()
+    //public void RestartCountDown()
+    //{
+      //  StopAllCoroutines(); // Stop any ongoing countdown
+        //StartCoroutine(CountdownRoutine()); // Restart the countdown
+    //}
+    
+    public void Restart(float newDuration)
     {
-        StopAllCoroutines(); // Stop any ongoing countdown
-        StartCoroutine(CountdownRoutine()); // Restart the countdown
+        StopAllCoroutines();          // Eski sayımı durdur
+        timer.StopTimer();            // Varsa eski süreyi sıfırla
+        InputLocker.Instance.LockInput();   // Oyuncuyu beklet
+        gameDuration = newDuration;   // Yeni süresi
+        StartCoroutine(CountdownRoutine());
     }
+
         
 }
 

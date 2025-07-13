@@ -46,7 +46,7 @@ public class LevelController : MonoBehaviour
 
         GameManager.Instance.ResetGameState();
         Timer.Instance.StopTimer();
-        countdownAnimator.RestartCountDown();
+        countdownAnimator.Restart(LevelDataLoader.GetTime());  
     }
 
     private void ClearScene()
