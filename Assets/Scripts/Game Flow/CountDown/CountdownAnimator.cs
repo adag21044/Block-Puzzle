@@ -23,6 +23,9 @@ public class CountdownAnimator : MonoBehaviour
 
     private IEnumerator CountdownRoutine()
     {
+        InputLocker.Instance.LockInput(); // lock input during countdown
+        isCountdownFinished = false; // reset countdown finished flag
+        
         int count = (int)countdownTime;
 
         while (count > 0)
