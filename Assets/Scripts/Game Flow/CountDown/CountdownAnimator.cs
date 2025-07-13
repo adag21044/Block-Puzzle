@@ -11,11 +11,13 @@ public class CountdownAnimator : MonoBehaviour
     [SerializeField] private static bool isCountdownFinished = false; // flag to check if countdown is finished
     public static bool IsCountdownFinished => isCountdownFinished; // public getter for the countdown finished flag
     [SerializeField] private Timer timer; // reference to the Timer 
-    [SerializeField] private float gameDuration = 10f; // duration of the game in seconds
+    [SerializeField] private float gameDuration; // duration of the game in seconds
 
 
     private void Start()
     {
+        gameDuration = LevelDataLoader.GetTime(); // fetch game duration from LevelDataLoader
+
         StartCoroutine(CountdownRoutine());
     }
 
@@ -72,6 +74,12 @@ public class CountdownAnimator : MonoBehaviour
 
         countdownText.transform.localScale = originalScale;
         countdownText.color = new Color(baseColor.r, baseColor.g, baseColor.b, 0f);
+    }
+
+    public void RestartCountDown()
+    {
+        StopAllCoroutines(); // Stop any ongoing countdown
+        StartCoroutine(CountdownRoutine()); // Restart the countdown
     }
         
 }

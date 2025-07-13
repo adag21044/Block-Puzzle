@@ -2399,6 +2399,7 @@ MonoBehaviour:
   pieceSpawner: {fileID: 1000057967}
   gridParent: {fileID: 1414909256}
   levelNumberText: {fileID: 1312853296}
+  countdownAnimator: {fileID: 408023732}
 --- !u!4 &1476949561
 Transform:
   m_ObjectHideFlags: 0

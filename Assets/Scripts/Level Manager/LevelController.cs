@@ -8,6 +8,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private PieceSpawner pieceSpawner; // Reference to the PieceSpawner component
     [SerializeField] private Transform gridParent;
     [SerializeField] private TMP_Text levelNumberText; // UI Text to display the current level number
+    [SerializeField] private CountdownAnimator countdownAnimator; // Reference to the CountdownAnimator component
 
     private void Start()
     {
@@ -45,10 +46,7 @@ public class LevelController : MonoBehaviour
 
         GameManager.Instance.ResetGameState();
         Timer.Instance.StopTimer();
-
-        // fetch level data duration
-        int duration = LevelDataLoader.GetTime();
-        Timer.Instance.StartTimer(duration);
+        countdownAnimator.RestartCountDown();
     }
 
     private void ClearScene()

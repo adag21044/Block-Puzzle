@@ -7,7 +7,6 @@ public class Timer : MonoBehaviour
 {
     public static Timer Instance { get; private set; }
     private float currentTime;
-    private float startTime = 10f;
     [SerializeField] private TextMeshProUGUI timerText; // UI element to display the timer
     
     private void Awake()
