@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 /// Handles drag & drop of a single puzzle piece (parent GameObject).
 /// Every child under this object represents a 1×1 block.
 /// </summary>
-public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
+public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerClickHandler
 {
     [SerializeField] private LayerMask gridLayer;
     
@@ -20,6 +20,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         get => _canBeRotated;
     }
+
+    #region Audio
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip clickSound;
+    #endregion
 
     #region Unity Events
     private void Awake()
@@ -103,6 +108,16 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
             ReleaseCurrentCells();
         }
     }
+
+    
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+    }
     #endregion
 
     #region Placement Logic
@@ -147,5 +162,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
         _placedCoords.Clear();
         _canBeRotated = true; // allow rotation again when piece is lifted
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        PlaySound(clickSound);
+    }
+
     #endregion
 }
