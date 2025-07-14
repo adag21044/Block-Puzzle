@@ -40,6 +40,14 @@ public class TimeScaleController : MonoBehaviour
             SetTimeScale(1f);
             isTimeFreeze = false;
         }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (!InputLocker.Instance.IsInputLocked)
+            {
+                Timer.Instance.FinishTimer(); // Timer'ı bitir ve LoseGame çağır
+                Debug.Log("⛔ Timer finished manually with X key!");
+            }
+        }
     }
 
     public void SetTimeScale(float scale)

@@ -58,6 +58,16 @@ public class Timer : MonoBehaviour
         GameManager.Instance.LoseGame(); // Notify GameManager that the timer has finished
     }
 
+    public void FinishTimer()
+    {
+        StopAllCoroutines(); // Stop the timer coroutine
+        currentTime = 0; // Reset the timer
+        UpdateTimerText(); // Update the UI text to show 00
+        Debug.Log("Timer finished early!");
+        InputLocker.Instance.LockInput(); // Lock input when timer finishes
+        GameManager.Instance.LoseGame(); // Notify GameManager that the timer has finished
+    }
+
     public void StopTimer()
     {
         StopAllCoroutines(); // Stop the timer coroutine
