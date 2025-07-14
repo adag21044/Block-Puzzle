@@ -14,17 +14,19 @@ public class CountdownAnimator : MonoBehaviour
     [SerializeField] private float gameDuration; // duration of the game in seconds
 
 
-    private void Start()
-    {
-        gameDuration = LevelDataLoader.GetTime(); // fetch game duration from LevelDataLoader
+    
 
-        StartCoroutine(CountdownRoutine());
+    public void StartCountdown(float newDuration, System.Action onComplete)
+    {
+        StopAllCoroutines();
+        timer.StopTimer();
+        gameDuration = newDuration;
+        StartCoroutine(CountdownRoutine(onComplete));
     }
 
-    private IEnumerator CountdownRoutine()
+    private IEnumerator CountdownRoutine(System.Action onComplete)
     {
-        InputLocker.Instance.LockInput(); // lock input during countdown
-        isCountdownFinished = false; // reset countdown finished flag
+        isCountdownFinished = false;
 
         int count = (int)countdownTime;
 
@@ -42,14 +44,9 @@ public class CountdownAnimator : MonoBehaviour
         yield return StartCoroutine(AnimateText());
 
         countdownText.gameObject.SetActive(false);
-        InputLocker.Instance.UnlockInput();
         isCountdownFinished = true;
 
-        // Geri sayım bitti → grid ve parçaları sahneye al
-        //gridCreator.AnimateGridEntry();
-        //pieceSpawner.SpawnPiecesFromJson();
-
-        timer.StartTimer(gameDuration);
+        onComplete?.Invoke();
     }
 
     private IEnumerator AnimateText()
@@ -87,11 +84,7 @@ public class CountdownAnimator : MonoBehaviour
     
     public void Restart(float newDuration)
     {
-        StopAllCoroutines();          // Eski sayımı durdur
-        timer.StopTimer();            // Varsa eski süreyi sıfırla
-        InputLocker.Instance.LockInput();   // Oyuncuyu beklet
-        gameDuration = newDuration;   // Yeni süresi
-        StartCoroutine(CountdownRoutine());
+        StartCountdown(newDuration, null);
     }
 
         

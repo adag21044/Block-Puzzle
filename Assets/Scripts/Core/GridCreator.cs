@@ -14,7 +14,7 @@ public class GridCreator : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(cellPrefab.GetComponent<SpriteRenderer>().bounds.size);
+       /* Debug.Log(cellPrefab.GetComponent<SpriteRenderer>().bounds.size);
 
         LoadGridSizeFromJson();
         CreateCenteredGrid();
@@ -24,7 +24,7 @@ public class GridCreator : MonoBehaviour
         transform.position = startPos;
 
         // 10 saniye sonra sahneye girsin
-        Invoke(nameof(AnimateGridEntry), 1f);
+        Invoke(nameof(AnimateGridEntry), 1f); */
 
     }
 

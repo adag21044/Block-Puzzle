@@ -14,10 +14,10 @@ public class PieceSpawner : MonoBehaviour
     private List<GameObject> spawnedPieces = new();
     [SerializeField] private Transform startPoint; // Starting point for spawning pieces
 
-    private void Awake()
+    /*private void Awake()
     {
         SpawnPiecesFromJson();
-    }
+    }*/
 
     public void SpawnPiecesFromJson()
     {
