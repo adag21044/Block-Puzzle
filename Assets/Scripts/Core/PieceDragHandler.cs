@@ -31,6 +31,16 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         foreach (Transform child in transform)
             _cells.Add(child);
+
+        audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.loop = false; 
     }
 
     private void Start() => _homePos = transform.position;
@@ -74,6 +84,11 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
 
         if (TryGetValidPlacement(out Vector3 snapOffset, out List<Vector2Int> coords))
         {
+            if (!InputLocker.Instance.IsInputLocked)
+            {
+                PlaySound(clickSound);
+            }
+
             // Yerleştir
             transform.position += snapOffset;
 
@@ -165,6 +180,12 @@ public class PieceDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (InputLocker.Instance.IsInputLocked)
+        {
+            Debug.Log("Input is locked, cannot play sound or rotate.");
+            return;
+        }
+        
         PlaySound(clickSound);
     }
 
