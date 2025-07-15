@@ -9,6 +9,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private TMP_Text levelNumberText;
     [SerializeField] private CountdownAnimator countdownAnimator;
     [SerializeField] private TapToPlayUI tapToPlayUI;
+    [SerializeField] private GameObject levelSelectionUI;
 
     private bool waitingForTap = true;
 
@@ -22,11 +23,11 @@ public class LevelController : MonoBehaviour
 
     private void Update()
     {
-        if (waitingForTap && Input.GetMouseButtonDown(0))
-        {
+       if (waitingForTap && Input.GetMouseButtonDown(0))
+       {
             StartSequence();
             tapToPlayUI.ShowLevelAndTimer();
-        }
+       }
 
         for (int i = 1; i <= 9; i++)
         {
@@ -49,13 +50,15 @@ public class LevelController : MonoBehaviour
 
         InputLocker.Instance.LockInput(); // 5 saniyelik countdown için input kilitle
 
-        LoadLevel(LevelManager.LevelIndex);
+        //LoadLevel(LevelManager.LevelIndex);
 
         countdownAnimator.StartCountdown(LevelDataLoader.GetTime(), OnCountdownFinished);
     }
 
     public void LoadLevel(int index)
     {
+        levelSelectionUI.SetActive(false); // deactivate level selection UI
+
         if (index < 0 || index >= 13)
         {
             Debug.LogWarning($"❌ Invalid level index: {index}");
@@ -66,7 +69,7 @@ public class LevelController : MonoBehaviour
 
         ClearScene();
 
-        LevelManager.LevelIndex = index;
+        
         UpdateLevelNumberText();
 
         gridCreator.CreateGridFromLevel();
@@ -77,7 +80,14 @@ public class LevelController : MonoBehaviour
 
         InputLocker.Instance.LockInput(); // Input lock
 
+        countdownAnimator.gameObject.SetActive(true); 
         countdownAnimator.StartCountdown(LevelDataLoader.GetTime(), OnCountdownFinished);
+    }
+
+    public void OnLevelButtonClicked(int index)
+    {
+        LevelManager.LevelIndex = index;
+        LoadLevel(index);
     }
 
 
