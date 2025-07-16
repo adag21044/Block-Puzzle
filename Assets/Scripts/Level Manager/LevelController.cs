@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class LevelController : MonoBehaviour
+public class LevelController : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private GridCreator gridCreator;
     [SerializeField] private PieceSpawner pieceSpawner;
@@ -15,28 +15,15 @@ public class LevelController : MonoBehaviour
     private bool waitingForTap = true;
     [SerializeField] private Button[] buttons;
 
-    private void Awake()
-    {
-        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
 
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            if (buttons[i].name != "Level1")
-            {
-                buttons[i].interactable = false; // Disable all buttons initially
-            }
-        }
-        for (int i = 0; i < unlockedLevel; i++)
-        {
-            if (buttons[i].name != "Level1")
-            {
-                buttons[i].interactable = false; // Disable all buttons initially
-            }
-        }
-    }
 
     private void Start()
     {
+        DataPersistenceManager.Instance.LoadGame();
+
+        // 2) Kayıttan gelen düğme durumlarını uygula
+        UpdateLevelButtons(); 
+
         UpdateLevelNumberText();
 
         tapToPlayUI.gameObject.SetActive(true);
@@ -45,11 +32,11 @@ public class LevelController : MonoBehaviour
 
     private void Update()
     {
-       if (waitingForTap && Input.GetMouseButtonDown(0))
-       {
+        if (waitingForTap && Input.GetMouseButtonDown(0))
+        {
             StartSequence();
             tapToPlayUI.ShowLevelAndTimer();
-       }
+        }
 
         for (int i = 1; i <= 9; i++)
         {
@@ -59,6 +46,8 @@ public class LevelController : MonoBehaviour
             }
         }
     }
+
+
 
     private void StartSequence()
     {
@@ -91,7 +80,7 @@ public class LevelController : MonoBehaviour
 
         ClearScene();
 
-        
+
         UpdateLevelNumberText();
 
         gridCreator.CreateGridFromLevel();
@@ -102,7 +91,7 @@ public class LevelController : MonoBehaviour
 
         InputLocker.Instance.LockInput(); // Input lock
 
-        countdownAnimator.gameObject.SetActive(true); 
+        countdownAnimator.gameObject.SetActive(true);
         countdownAnimator.StartCountdown(LevelDataLoader.GetTime(), OnCountdownFinished);
     }
 
@@ -121,7 +110,7 @@ public class LevelController : MonoBehaviour
         Timer.Instance.StartTimer(LevelDataLoader.GetTime());
     }
 
-    
+
 
     private void ClearScene()
     {
@@ -142,4 +131,39 @@ public class LevelController : MonoBehaviour
     {
         levelNumberText.text = "Level: " + (LevelManager.LevelIndex + 1);
     }
+
+    public void LoadData(GameData data)
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].interactable = i <= data.maxUnlockedLevel;
+        }
+
+        LevelManager.LevelIndex = data.currentLevelIndex; // KAYDEDİLMİŞ SEVİYEYİ YÜKLE
+        UpdateLevelNumberText();  
+    }
+
+
+    public void SaveData(ref GameData data)
+    {
+        // 1) Geçerli seviyeyi mutlaka kaydet
+        data.currentLevelIndex = LevelManager.LevelIndex;
+
+        // 2) Açılan en yüksek seviyeyi güncelle
+        if (LevelManager.LevelIndex >= data.maxUnlockedLevel)
+            data.maxUnlockedLevel = LevelManager.LevelIndex + 1;
+    }
+
+    
+    public void UpdateLevelButtons()
+    {
+        GameData data = DataPersistenceManager.Instance.GetGameData();
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].interactable = i <= data.maxUnlockedLevel;
+        }
+    }
+
+
 }

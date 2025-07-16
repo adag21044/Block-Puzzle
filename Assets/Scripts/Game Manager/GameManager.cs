@@ -64,6 +64,25 @@ public class GameManager : MonoBehaviour
         Timer.Instance.StopTimer(); // Stop the timer when the game is won
         InputLocker.Instance.LockInput(); // Unlock input when the game is won
         Debug.Log("You won the game and Input is locked!");
+
+        DataPersistenceManager dataManager = DataPersistenceManager.Instance;
+        GameData data = dataManager.GetGameData();
+
+        if (LevelManager.LevelIndex >= data.maxUnlockedLevel)
+        {
+            data.maxUnlockedLevel = LevelManager.LevelIndex + 1;
+            DataPersistenceManager.Instance.SaveGame();
+        }
+
+        LevelController levelController = FindObjectOfType<LevelController>();
+        if (levelController != null)
+        {
+            Debug.Log("Updating level buttons after winning the game.");
+            levelController.UpdateLevelButtons();
+        }
+
+
+        Debug.Log("Unlocked level updated and saved!");
     }
 
     private void EndGame()
