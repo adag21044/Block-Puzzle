@@ -149,9 +149,7 @@ public class LevelController : MonoBehaviour, IDataPersistence
         // 1) Geçerli seviyeyi mutlaka kaydet
         data.currentLevelIndex = LevelManager.LevelIndex;
 
-        // 2) Açılan en yüksek seviyeyi güncelle
-        if (LevelManager.LevelIndex >= data.maxUnlockedLevel)
-            data.maxUnlockedLevel = LevelManager.LevelIndex + 1;
+        
     }
 
     
