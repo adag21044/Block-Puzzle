@@ -28,7 +28,7 @@ public class DataPersistenceManager : MonoBehaviour
     {
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-        
+
     }
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()
@@ -91,4 +91,22 @@ public class DataPersistenceManager : MonoBehaviour
         SaveGame();
     }
     
+    #if UNITY_EDITOR
+    [ContextMenu("Reset Save Data")]
+    public void ResetSaveData()
+    {
+        string fullPath = System.IO.Path.Combine(Application.persistentDataPath, fileName);
+
+        if (System.IO.File.Exists(fullPath))
+        {
+            System.IO.File.Delete(fullPath);
+            Debug.Log($"✅ Save file deleted at: {fullPath}");
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ No save file found at: {fullPath}");
+        }
+    }
+    #endif
+
 }

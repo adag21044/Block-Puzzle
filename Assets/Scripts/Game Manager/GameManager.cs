@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class GameManager : MonoBehaviour
     private int totalCellCount;
     private int filledCellCount;
     private bool gameEnded = false;
+    [SerializeField] private GameObject levelSelectionUI;
 
     private void Awake()
     {
@@ -98,6 +100,8 @@ public class GameManager : MonoBehaviour
             LoseGame();
         }
         Debug.Log("Final Score: " + GetScore());
+
+        StartCoroutine(ShowLevelPanelAfterDelay(5f));
     }
 
     public float GetScore()
@@ -115,6 +119,12 @@ public class GameManager : MonoBehaviour
         filledCellCount = 0;
         gameEnded = false;
         InputLocker.Instance.UnlockInput(); // Unlock input when the game state is reset
+    }
+
+    private IEnumerator ShowLevelPanelAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        levelSelectionUI.SetActive(true);
     }
 
 }
