@@ -4659,6 +4659,20 @@ MonoBehaviour:
   countdownAnimator: {fileID: 408023732}
   tapToPlayUI: {fileID: 379186498}
   levelSelectionUI: {fileID: 184927237}
+  buttons:
+  - {fileID: 191807644}
+  - {fileID: 887905583}
+  - {fileID: 833246886}
+  - {fileID: 1323484431}
+  - {fileID: 319861864}
+  - {fileID: 1400248624}
+  - {fileID: 1350285579}
+  - {fileID: 862565989}
+  - {fileID: 480153714}
+  - {fileID: 766967285}
+  - {fileID: 1875588863}
+  - {fileID: 488392497}
+  - {fileID: 14650200}
 --- !u!4 &1476949561
 Transform:
   m_ObjectHideFlags: 0

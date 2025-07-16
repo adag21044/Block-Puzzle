@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
 {
@@ -12,6 +13,27 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject levelSelectionUI;
 
     private bool waitingForTap = true;
+    [SerializeField] private Button[] buttons;
+
+    private void Awake()
+    {
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].name != "Level1")
+            {
+                buttons[i].interactable = false; // Disable all buttons initially
+            }
+        }
+        for (int i = 0; i < unlockedLevel; i++)
+        {
+            if (buttons[i].name != "Level1")
+            {
+                buttons[i].interactable = false; // Disable all buttons initially
+            }
+        }
+    }
 
     private void Start()
     {
