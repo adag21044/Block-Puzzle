@@ -1886,8 +1886,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.5216, y: 3.3052}
-  m_SizeDelta: {x: 1530.3568, y: 2060.2246}
+  m_AnchoredPosition: {x: 1.5216, y: -0.65}
+  m_SizeDelta: {x: 1079.4847, y: 2337.0762}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &565642088
 MonoBehaviour:
@@ -3063,7 +3063,7 @@ Transform:
   m_GameObject: {fileID: 782371397}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.30258352, y: 0.53155893, z: 0.033008177}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3692,9 +3692,11 @@ MonoBehaviour:
   - {fileID: 3008608500689227138, guid: c9c71a79bc9ea49488f865b882d3854a, type: 3}
   - {fileID: 8503305233012589537, guid: d99129c06d933784eb2648860633b90a, type: 3}
   pieceParent: {fileID: 1000057968}
-  spacing: 5
+  spacing: 3.5
   levelIndex: 0
   startPoint: {fileID: 1578040145}
+  spacingX: 2
+  spacingY: 5
 --- !u!4 &1000057968
 Transform:
   m_ObjectHideFlags: 0
@@ -4968,7 +4970,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1578040145}
   m_Layer: 0
-  m_Name: Spawn Point
+  m_Name: Spawn Point(For pieces)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
