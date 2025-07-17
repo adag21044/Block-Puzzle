@@ -3051,8 +3051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60739961209921141afc7a83bdc788da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CellSize: 1.64
-  Spacing: 0.1
+  CellSize: 4.92
+  Spacing: 4.92
   gridSize: 3
 --- !u!4 &782371399
 Transform:
@@ -3806,8 +3806,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 72
+  m_fontSizeBase: 72
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4743,7 +4743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 6003602420556211510, guid: b78c4eb9173ad334397fabe7ed87f60d, type: 3}
   cellSize: 1.64
-  spacing: 0
+  spacing: 3.28
 --- !u!1 &1476949559
 GameObject:
   m_ObjectHideFlags: 0

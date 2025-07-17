@@ -14,17 +14,11 @@ public class PieceSpawner : MonoBehaviour
     private List<GameObject> spawnedPieces = new();
     [SerializeField] private Transform startPoint; // Starting point for spawning pieces
 
-    /*private void Awake()
-    {
-        SpawnPiecesFromJson();
-    }*/
-
     public void SpawnPiecesFromJson()
     {
         int levelIndex = LevelManager.LevelIndex;
         Debug.Log($"Spawning pieces for level index: {levelIndex}");
 
-        // Load JSON data
         string jsonPath = Path.Combine(Application.streamingAssetsPath, "Game159Params.json");
         string jsonText = File.ReadAllText(jsonPath);
         JObject data = JObject.Parse(jsonText);
@@ -32,7 +26,19 @@ public class PieceSpawner : MonoBehaviour
         JArray piecesArray = (JArray)data["pieceIDs"][levelIndex];
         JArray piecesAngles = (JArray)data["pieceAngles"][levelIndex];
 
-        float startX = -((piecesArray.Count - 1) * spacing) / 2f;
+        Camera mainCamera = Camera.main;
+
+        float camZ = startPoint.position.z - mainCamera.transform.position.z;
+
+        Vector3 bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0.05f, 0.1f, camZ));
+        Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(0.95f, 0.4f, camZ));
+
+        float minX = bottomLeft.x;
+        float maxX = topRight.x;
+        float minY = bottomLeft.y;
+        float maxY = topRight.y;
+
+        Debug.Log($"Spawn area X: {minX} to {maxX}, Y: {minY} to {maxY}");
 
         // Shuffle color pool
         List<Color> colorPool = new(PieceColorData.Colors);
@@ -58,7 +64,11 @@ public class PieceSpawner : MonoBehaviour
 
             GameObject prefab = piecePrefabs[id - 1];
 
-            Vector3 targetPos = startPoint.position + new Vector3(i * spacing, 0f, 0f);
+            // Generate random position in camera bounds
+            float randomX = Random.Range(minX, maxX);
+            float randomY = Random.Range(minY, maxY);
+
+            Vector3 targetPos = new Vector3(randomX, randomY, startPoint.position.z);
             Vector3 startPos = targetPos - new Vector3(0f, 5f, 0f);
 
             GameObject piece = Instantiate(prefab, startPos, Quaternion.Euler(0, 0, -angle), pieceParent);
@@ -71,7 +81,8 @@ public class PieceSpawner : MonoBehaviour
                 view.SetColor(assignedColors[i]);
             }
 
-            piece.transform.DOMoveY(targetPos.y, 1f).SetEase(Ease.OutBack).SetDelay(0.2f * i);
+            piece.transform.DOMoveY(targetPos.y, 1f).SetEase(Ease.OutBack).SetDelay(0.1f * i);
         }
     }
+
 }

@@ -22,13 +22,14 @@ public class TimeScaleController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Minus)) // Zamanı yavaşlat
+        if (Input.GetKeyDown(KeyCode.KeypadMinus)) // Zamanı yavaşlat
         {
             SetTimeScale(timeScale - 0.5f);
         }
-        else if (Input.GetKeyDown(KeyCode.Plus)) // Zamanı hızlandır
+        else if (Input.GetKeyDown(KeyCode.KeypadPlus)) // Zamanı hızlandır
         {
             SetTimeScale(timeScale + 0.5f);
+            Debug.Log($"⏩ Time scale increased to {timeScale}");
         }
         else if (!isTimeFreeze && Input.GetKeyDown(KeyCode.I)) // Zamanı sıfırla (dondur)
         {
